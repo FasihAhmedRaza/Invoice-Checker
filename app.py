@@ -44,9 +44,9 @@ def pdf_to_images(pdf_file):
     return images
 
 ## Initialize our streamlit app
-st.set_page_config(page_title="Invoice App")
+st.set_page_config(page_title="Gemini Health App")
 
-st.header("Invoice verification APP")
+st.header("OCR APP")
 
 # Add a dropdown to select file type
 file_type = st.selectbox("Select file type:", ["Image", "PDF"])
@@ -57,15 +57,22 @@ if file_type == "Image":
 elif file_type == "PDF":
     uploaded_file = st.file_uploader("Choose a PDF...", type=["pdf"])
 
-input = st.text_input("Provide additional guidance (optional): ", key="input")
+input = "hi"
 submit = st.button("Check")
 
 input_prompt = """
 You are an expert ocr auditing documents and invoices, extract all the text and format it according to the image.
 
-ONLY CHECK IF THE INVOICES ARE VALID OR NOT , BY CHECKING THE PRESENCE OF A STAMP.
+ONLY CHECK IF THE INVOICES ARE VALID OR NOT , BY CHECKING THE PRESENCE OF A STAMP, INVOICE NO, if invoice no is not present then it invalid as well .
 
-Return single word as VALID OR INVALID.
+THE INVOICE SHOULD BE ONLY FROM 'AJMAN MANICIPALITY'
+
+if (company = ajman manicipality) && (invoice number=true) && (stamp=true)
+    then invoice is valid
+
+else not valid.
+
+Return only the name of the company if present, the invoice number if present, and VALID OR NOT VALID. write in tabular form
 """
 
 ## If submit button is clicked
