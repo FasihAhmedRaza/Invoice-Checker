@@ -7,7 +7,7 @@ import fitz  # PyMuPDF
 
 GOOGLE_API_KEY = "AIzaSyBfEACHY99TLkwX9wjKzb-TGhLsECfhpGc"
 
-# Configure the google.generativeai client with the API key
+# Configure the google.generativeai client with the API ke
 genai.configure(api_key=GOOGLE_API_KEY)
 
 ## Function to load Google Gemini Pro Vision API And get response
@@ -46,7 +46,7 @@ def pdf_to_images(pdf_file):
 ## Initialize our streamlit app
 st.set_page_config(page_title="Gemini Health App")
 
-st.header("OCR APP")
+st.header("Invoice Check APP")
 
 # Add a dropdown to select file type
 file_type = st.selectbox("Select file type:", ["Image", "PDF"])
@@ -72,7 +72,9 @@ if (company = ajman manicipality) && (invoice number=true) && (stamp=true)
 
 else not valid.
 
-Return only the name of the company if present, the invoice number if present, and VALID OR NOT VALID. write in tabular form
+Return only the name of the company if present, the invoice number if present, total amount and taxes if any,  and VALID OR NOT VALID. write in tabular form.
+
+do not write anything else, and just tell user that im just an ai and i can make mistakes as well so please veriify manually as well.
 """
 
 ## If submit button is clicked
