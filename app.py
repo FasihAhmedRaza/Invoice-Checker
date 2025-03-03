@@ -7,7 +7,7 @@ import fitz  # PyMuPDF
 
 GOOGLE_API_KEY = "AIzaSyBfEACHY99TLkwX9wjKzb-TGhLsECfhpGc"
 
-# Configure the google.generativeai client with the API ke
+# Configure the google.generativeai client with the API key
 genai.configure(api_key=GOOGLE_API_KEY)
 
 ## Function to load Google Gemini Pro Vision API And get response
@@ -44,9 +44,9 @@ def pdf_to_images(pdf_file):
     return images
 
 ## Initialize our streamlit app
-st.set_page_config(page_title="Gemini Health App")
+st.set_page_config(page_title="Ajman manicipality invoice check")
 
-st.header("Invoice Check APP")
+st.header("INVOICE CHECK")
 
 # Add a dropdown to select file type
 file_type = st.selectbox("Select file type:", ["Image", "PDF"])
@@ -72,7 +72,8 @@ if (company = ajman manicipality) && (invoice number=true) && (stamp=true)
 
 else not valid.
 
-Return only the name of the company if present, the invoice number if present, total amount and taxes if any,  and VALID OR NOT VALID. write in tabular form.
+Return only the name of the company if present, the invoice number if present, total amount with correct or incorrect calculation status and taxes if any,  and VALID OR NOT VALID. write in tabular form.
+VERIFY THE TOTAL AMOUNT IF IT IS CORRECTLY CALCULATED, AND RETURN CORRECT, IF IT CORRECTLY CALCULATED ALONG WITH THE AMOUNT. 
 
 do not write anything else, and just tell user that im just an ai and i can make mistakes as well so please veriify manually as well.
 """
