@@ -41,52 +41,61 @@ def pdf_to_images(pdf_file):
     return images
 
 # Streamlit UI Setup
-st.set_page_config(page_title="Invoice check")
+st.set_page_config(page_title="Invoice Check", layout="wide")
 st.header("Invoice Check APP")
 
 # Dropdown for file type selection
 file_type = st.selectbox("Select file type:", ["Image", "PDF"])
 
 # File uploader based on selection
-uploaded_file = st.file_uploader(
-    "Upload a file...", type=["jpg", "jpeg", "png", "pdf"]
-)
+if file_type == "Image":
+    uploaded_files = st.file_uploader(
+        "Upload up to 5 images...", type=["jpg", "jpeg", "png"], accept_multiple_files=True
+    )
+    if uploaded_files and len(uploaded_files) > 5:
+        st.error("You can upload a maximum of 5 images.")
+        uploaded_files = uploaded_files[:5]  # Limit to 5 images
+elif file_type == "PDF":
+    uploaded_file = st.file_uploader(
+        "Upload a PDF file...", type=["pdf"]
+    )
 
 input_prompt = """
 You are an expert ocr auditing documents and invoices, extract all the text and format it according to the image.
 
 ONLY CHECK IF THE INVOICES ARE VALID OR NOT , BY CHECKING THE PRESENCE OF A STAMP, INVOICE NO, if invoice no is not present then it invalid as well .
 
-THE INVOICE SHOULD BE ONLY FROM 'AJMAN MANICIPALITY' or 'Darwish Engineering'
+THE INVOICE SHOULD BE ONLY FROM 'AJMAN MANICIPALITY', 'Darwish Engineering' or 'AIMSGROUP'
 
-if (company = ajman manicipality or darwish engineering ) && (invoice number=true) && (stamp=true)
+if (company = ajman manicipality or darwish engineering or AIMSGROUP ) && (invoice number=true) && (stamp=true)
     then invoice is valid
 
 else not valid.
 
-Return only the name of the company if present, the invoice number if present, total amount with correct or incorrect calculation status and taxes if any,  and VALID OR NOT VALID. write in tabular form.
+Return only the name of the company if present,the name of the sender(company name is sender) and reciever if present,  the invoice number if present, total amount with correct or incorrect calculation status and taxes if any,  and VALID OR NOT VALID. write in tabular form.
 VERIFY THE TOTAL AMOUNT IF IT IS CORRECTLY CALCULATED, AND RETURN CORRECT, IF IT CORRECTLY CALCULATED ALONG WITH THE AMOUNT. 
 
 do not write anything else provide only the table!.
 """
 # Submit button
-if st.button("Check") and uploaded_file:
+if st.button("Check"):
     new_responses = []  # Temporary storage for new responses
 
-    if file_type == "Image":
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image.", use_column_width=True)
-        image_data = input_image_setup(uploaded_file)
-        response = get_gemini_response(input_prompt, image_data, "hi")
+    if file_type == "Image" and uploaded_files:
+        for idx, uploaded_file in enumerate(uploaded_files):
+            image = Image.open(uploaded_file)
+            st.image(image, caption=f"Uploaded Image {idx+1}.", use_column_width=True)
+            image_data = input_image_setup(uploaded_file)
+            response = get_gemini_response(input_prompt, image_data, "hi")
 
-        # Display response immediately after the image
-        st.subheader("Response")
-        st.write(response)
+            # Display response immediately after the image
+            st.subheader(f"Response for Image {idx+1}")
+            st.write(response)
 
-        # Store response
-        new_responses.append({"type": "Image", "response": response})
+            # Store response
+            new_responses.append({"type": f"Image {idx+1}", "response": response})
 
-    elif file_type == "PDF":
+    elif file_type == "PDF" and uploaded_file:
         images = pdf_to_images(uploaded_file)
         for i, img in enumerate(images):
             st.image(img, caption=f"Page {i+1} of PDF", use_column_width=True)
