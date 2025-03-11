@@ -50,11 +50,11 @@ file_type = st.selectbox("Select file type:", ["Image", "PDF"])
 # File uploader based on selection
 if file_type == "Image":
     uploaded_files = st.file_uploader(
-        "Upload up to 5 images...", type=["jpg", "jpeg", "png"], accept_multiple_files=True
+        "Upload up to 15 images...", type=["jpg", "jpeg", "png"], accept_multiple_files=True
     )
-    if uploaded_files and len(uploaded_files) > 5:
-        st.error("You can upload a maximum of 5 images.")
-        uploaded_files = uploaded_files[:5]  # Limit to 5 images
+    if uploaded_files and len(uploaded_files) > 15:
+        st.error("You can upload a maximum of 15 images.")
+        uploaded_files = uploaded_files[:15]  # Limit to 5 images
 elif file_type == "PDF":
     uploaded_file = st.file_uploader(
         "Upload a PDF file...", type=["pdf"]
@@ -117,9 +117,9 @@ if st.button("Check"):
     # Append new responses to session state
     st.session_state.responses.extend(new_responses)
 
-# Display all previous responses at the end
-if st.session_state.responses:
-    st.subheader("History")
-    for idx, res in enumerate(st.session_state.responses):
-        st.markdown(f"### {res['type']}")
-        st.write(res['response'])
+# # Display all previous responses at the end
+# if st.session_state.responses:
+#     st.subheader("History")
+#     for idx, res in enumerate(st.session_state.responses):
+#         st.markdown(f"### {res['type']}")
+#         st.write(res['response'])
