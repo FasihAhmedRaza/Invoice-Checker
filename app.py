@@ -13,7 +13,7 @@ load_dotenv()
 APP_PASSWORD = os.getenv("APP_PASSWORD")
 
 # Configure the Google Generative AI client
-GOOGLE_API_KEY = "AIzaSyBfEACHY99TLkwX9wjKzb-TGhLsECfhpGc"
+GOOGLE_API_KEY = "AIzaSyDNer8nr3hoNSi7y4BHzLDJyuHqyH9GB5k"
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # Initialize session state for responses
